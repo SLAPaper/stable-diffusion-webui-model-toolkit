@@ -187,11 +187,16 @@ def do_basic_report(details: ToolkitModel, dont_half, keep_ema):
 
     if d.renamed:
         out += [f"**CLIP was mislablled, {len(d.renamed)} keys renamed.**"]
-    if d.broken:
+    if d.broken and -1 not in d.broken:
         if d.fix_clip:
             out += [f"**CLIP had incorrect positions, fixed:** {', '.join([str(i) for i in d.broken])}."]
         else:
             out += [f"**CLIP has incorrect positions, missing:** {', '.join([str(i) for i in d.broken])}."]
+    elif d.broken and -1 in d.broken:
+        if d.fix_clip:
+            out += ["**CLIP had no positions, fixed.**"]
+        else:
+            out += ["**CLIP had no positions.**"]
     if "CLIP-v2-WD" in d.a_components:
         out += ["**CLIP is missing its final layer.**"]
 

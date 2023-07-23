@@ -81,6 +81,16 @@ COMPONENTS = {
         "source": "CLIP-v1-SD.txt",
         "prefix": "cond_stage_model.transformer."
     },
+    "CLIP-v1-SD-nopos": {
+        "keys": {},
+        "source": "CLIP-v1-SD-nopos.txt",
+        "prefix": "cond_stage_model.transformer.text_model."
+    },
+    "CLIP-v1-NAI-nopos": {
+        "keys": {},
+        "source": "CLIP-v1-SD-nopos.txt",
+        "prefix": "cond_stage_model.transformer."
+    },
     "CLIP-v2-SD": {
         "keys": {},
         "source": "CLIP-v2-SD.txt",
@@ -140,6 +150,8 @@ COMPONENT_CLASS = {
     "VAE-v1-SD": "VAE-v1",
     "CLIP-v1-SD": "CLIP-v1",
     "CLIP-v1-NAI": "CLIP-v1",
+    "CLIP-v1-SD-nopos": "CLIP-v1",
+    "CLIP-v1-NAI-nopos": "CLIP-v1",
     "CLIP-v2-SD": "CLIP-v2",
     "CLIP-v2-WD": "CLIP-v2",
     "Depth-v2-SD": "Depth-v2",
@@ -579,11 +591,11 @@ def fix_model(model, fix_clip=False):
     
     # fix merging nonsense
     i = "cond_stage_model.transformer.text_model.embeddings.position_ids"
+    correct = torch.Tensor([list(range(77))]).to(torch.int64)
+
     broken = []
     if i in model:
-        correct = torch.Tensor([list(range(77))]).to(torch.int64)
         current = model[i].to(torch.int64)
-
         broken = correct.ne(current)
         broken = [i for i in range(77) if broken[0][i]]
 
@@ -593,6 +605,12 @@ def fix_model(model, fix_clip=False):
         else:
             # ensure fp16 looks the same as fp32
             model[i] = current
+    else:
+        # missing pos_ids
+        broken = [-1]
+        if fix_clip:
+            model[i] = correct
+
 
     return renamed, broken
 
