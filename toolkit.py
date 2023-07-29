@@ -66,6 +66,16 @@ COMPONENTS = {
         "source": "UNET-v2-Depth.txt",
         "prefix": "model.diffusion_model."
     },
+    "UNET-XL-SD": {
+        "keys": {},
+        "source": "UNET-XL-SD.txt",
+        "prefix": "model.diffusion_model."
+    },
+    "UNET-XL-Refiner": {
+        "keys": {},
+        "source": "UNET-XL-Refiner.txt",
+        "prefix": "model.diffusion_model."
+    },
     "VAE-v1-SD": {
         "keys": {},
         "source": "VAE-v1-SD.txt",
@@ -100,6 +110,21 @@ COMPONENTS = {
         "keys": {},
         "source": "CLIP-v2-WD.txt",
         "prefix": "cond_stage_model.model."
+    },
+    "CLIP-XL-SD": {
+        "keys": {},
+        "source": "CLIP-XL-SD.txt",
+        "prefix": "conditioner.embedders.1.model."
+    },
+    "CLIP-XL-Refiner": {
+        "keys": {},
+        "source": "CLIP-XL-SD.txt",
+        "prefix": "conditioner.embedders.0.model."
+    },
+    "CLIP-XL-AUX-SD": {
+        "keys": {},
+        "source": "CLIP-v1-SD.txt",
+        "prefix": "conditioner.embedders.0.transformer.text_model."
     },
     "Depth-v2-SD": {
         "keys": {},
@@ -147,6 +172,8 @@ COMPONENT_CLASS = {
     "UNET-v2-SD": "UNET-v2",
     "UNET-v2-Inpainting": "UNET-v2",
     "UNET-v2-Depth": "UNET-v2-Depth",
+    "UNET-XL-SD": "UNET-XL",
+    "UNET-XL-Refiner": "UNET-XL-Refiner",
     "VAE-v1-SD": "VAE-v1",
     "CLIP-v1-SD": "CLIP-v1",
     "CLIP-v1-NAI": "CLIP-v1",
@@ -154,6 +181,9 @@ COMPONENT_CLASS = {
     "CLIP-v1-NAI-nopos": "CLIP-v1",
     "CLIP-v2-SD": "CLIP-v2",
     "CLIP-v2-WD": "CLIP-v2",
+    "CLIP-XL-SD": "CLIP-XL",
+    "CLIP-XL-Refiner": "CLIP-XL",
+    "CLIP-XL-AUX-SD": "CLIP-XL-AUX",
     "Depth-v2-SD": "Depth-v2",
     "LoRA-v1-UNET": "LoRA-v1-UNET",
     "LoRA-v1-CLIP": "LoRA-v1-CLIP",
@@ -205,6 +235,18 @@ ARCHITECTURES = {
         "required": [],
         "prefixed": False
     },
+    "UNET-XL": {
+        "classes": ["UNET-XL-SD"],
+        "optional": [],
+        "required": [],
+        "prefixed": False
+    },
+    "UNET-XL-Refiner": {
+        "classes": ["UNET-XL-Refiner"],
+        "optional": [],
+        "required": [],
+        "prefixed": False
+    },
     "VAE-v1": {
         "classes": ["VAE-v1"],
         "optional": [],
@@ -219,6 +261,18 @@ ARCHITECTURES = {
     },
     "CLIP-v2": {
         "classes": ["CLIP-v2"],
+        "optional": [],
+        "required": [],
+        "prefixed": False
+    },
+    "CLIP-XL": {
+        "classes": ["CLIP-XL-SD"],
+        "optional": [],
+        "required": [],
+        "prefixed": False
+    },
+    "CLIP-XL-AUX": {
+        "classes": ["CLIP-XL-AUX-SD"],
         "optional": [],
         "required": [],
         "prefixed": False
@@ -261,6 +315,18 @@ ARCHITECTURES = {
     },
     "SD-v2-Depth": {
         "classes": ["UNET-v2-Depth", "VAE-v1", "CLIP-v2", "Depth-v2"],
+        "optional": OPTIONAL,
+        "required": [],
+        "prefixed": True
+    },
+    "SD-XL": {
+        "classes": ["UNET-XL", "VAE-v1", "CLIP-XL", "CLIP-XL-AUX"],
+        "optional": OPTIONAL,
+        "required": [],
+        "prefixed": True
+    },
+    "SD-XL-Refiner": {
+        "classes": ["UNET-XL-Refiner", "VAE-v1", "CLIP-XL"],
         "optional": OPTIONAL,
         "required": [],
         "prefixed": True
