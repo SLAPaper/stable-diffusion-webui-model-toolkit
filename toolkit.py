@@ -671,12 +671,6 @@ def fix_model(model, fix_clip=False):
         else:
             # ensure fp16 looks the same as fp32
             model[i] = current
-    else:
-        # missing pos_ids
-        broken = [-1]
-        if fix_clip:
-            model[i] = correct
-
 
     return renamed, broken
 
